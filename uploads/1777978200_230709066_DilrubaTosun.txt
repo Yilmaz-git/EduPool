@@ -1,0 +1,170 @@
+#include <iostream>
+using namespace std;
+
+
+// STRUCT
+
+struct Node {
+    char data;
+    int priority;
+    Node* next;
+};
+
+Node* tail = NULL;     // circular list uses only tail
+Node* current = NULL;  // active cursor
+
+
+// CREATE
+
+void createStructure() {
+    tail = current = NULL;
+    cout << "Structure created.\n";
+}
+
+
+// INSERT
+
+void insertNode() {
+    char value;
+    cout << "Enter element: ";
+    cin >> value;
+
+    Node* newNode = new Node;
+    newNode->data = value;
+    newNode->priority = 100;
+
+    if (tail == NULL) {
+        tail = newNode;
+        newNode->next = newNode;   // circular
+        current = newNode;
+    } else {
+        newNode->next = tail->next;
+        tail->next = newNode;
+        tail = newNode;
+    }
+
+    cout << value << " inserted.\n";
+}
+
+
+// TRAVERSE
+
+void traverse() {
+    if (tail == NULL) {
+        cout << "Empty.\n";
+        return;
+    }
+
+    Node* temp = tail->next;
+    cout << "Queue:\n";
+    do {
+        if (temp == current) cout << "(";
+        cout << temp->data << ":" << temp->priority;
+        if (temp == current) cout << ")";
+        cout << " -> ";
+        temp = temp->next;
+    } while (temp != tail->next);
+
+    cout << "(back to start)\n";
+}
+
+
+// PROCESS STEP (CORRECT)
+
+void processStep() {
+    if (current == NULL) {
+        cout << "Empty.\n";
+        return;
+    }
+
+    cout << current->data << " processed.\n";
+    current->priority -= 30;
+
+    // -------- PRIORITY EXHAUSTED --------
+    if (current->priority <= 0) {
+        cout << current->data << " priority exhausted › moved to tail & reset.\n";
+
+        current->priority = 100;
+
+        // MOVE TO TAIL (KEY LINE)
+        tail = current;
+    }
+
+    // ADVANCE ROUND-ROBIN
+    current = current->next;
+}
+
+
+
+// DELETE
+
+void deleteNode() {
+    if (tail == NULL) return;
+
+    char target;
+    cout << "Delete element: ";
+    cin >> target;
+
+    Node* prev = tail;
+    Node* temp = tail->next;
+
+    do {
+        if (temp->data == target) {
+
+            if (temp == prev) { // only one node
+                delete temp;
+                tail = current = NULL;
+                cout << "Deleted.\n";
+                return;
+            }
+
+            prev->next = temp->next;
+
+            if (temp == tail)
+                tail = prev;
+
+            if (temp == current)
+                current = temp->next;
+
+            delete temp;
+            cout << "Deleted.\n";
+            return;
+        }
+
+        prev = temp;
+        temp = temp->next;
+    } while (temp != tail->next);
+
+    cout << "Not found.\n";
+}
+
+// =====================
+// MENU
+// =====================
+void menu() {
+    cout << "\n1.Create 2.Insert 3.Traverse 4.Process 5.Delete 0.Exit\n";
+    cout << "Choice: ";
+}
+
+
+// MAIN
+
+int main() {
+    int choice;
+    do {
+        menu();
+        cin >> choice;
+
+        switch (choice) {
+            case 1: createStructure(); break;
+            case 2: insertNode(); break;
+            case 3: traverse(); break;
+            case 4: processStep(); break;
+            case 5: deleteNode(); break;
+            case 0: cout << "Exit.\n"; break;
+        }
+    } while (choice != 0);
+
+    return 0;
+}
+
