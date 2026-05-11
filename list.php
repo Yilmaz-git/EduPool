@@ -279,6 +279,40 @@ button{
     cursor:pointer;
 }
 
+/* Kucuk resim onizleme */
+.preview-img{
+    width:200px;
+    border-radius:10px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+/* Resim hover efekti */
+.preview-img:hover{
+    transform:scale(1.03);
+}
+
+/* Buyuk resim modal */
+#imageModal{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.8);
+    justify-content:center;
+    align-items:center;
+    z-index:999;
+}
+
+/* Buyuk resim */
+#imageModal img{
+    max-width:80%;
+    max-height:80%;
+    border-radius:20px;
+}
+
 </style>
 
 </head>
@@ -298,12 +332,28 @@ button{
 <!-- Projeler linki -->
 <a href="projects.php" style="color:white;">Projeler & Odevler </a>
 
+
+<!-- Sadece admin kullanicilar kullanici yonetim panelini gorebilir -->
+<?php if($_SESSION['role']=="admin"){ ?>
+|
+<a href="manage_users.php" style="color:white;">
+Kullanicilar
+</a>
+<?php } ?>
+
 </div>
 
 <div>
 
 <!-- Kullanici adi -->
-👤 <?php echo $user['username']; ?> |
+
+<?php if($_SESSION['role']=="admin"){ ?>
+👑 Admin |
+<?php } else { ?>
+👤 User |
+<?php } ?>
+
+<?php echo $user['username']; ?> |
 
 <!-- Cikis linki -->
 <a href="logout.php" style="color:white;">Cikis</a>
@@ -491,7 +541,9 @@ $file = $row['file_path'];
         <!-- Resim ise -->
         <?php } elseif(in_array($ext,['jpg','jpeg','png','gif'])){ ?>
 
-            <img src="<?php echo $file; ?>" style="width:100%;border-radius:10px;">
+            <img src="<?php echo $file; ?>"
+class="preview-img"
+onclick="openImage(this.src)">
 
 
         <!-- Diger dosyalar -->
@@ -509,11 +561,14 @@ $file = $row['file_path'];
 <br><br>
 
 
-<!-- Sil butonu -->
+<!-- Sadece admin silebilir -->
+
+<?php if($_SESSION['role']=="admin"){ ?>
 <a class="btn delete"
 href="delete.php?id=<?php echo $row['id']; ?>">
 Sil
 </a>
+<?php } ?>
 
 
 <!-- Duzenle butonu -->
@@ -602,6 +657,14 @@ Kaydet
 </div>
 
 
+<!-- Buyuk resim modal -->
+
+<div id="imageModal" onclick="closeImage()">
+
+<img id="modalImg">
+
+</div>
+
 
 <script>
 
@@ -614,6 +677,22 @@ function openModal(){
 // Modal kapatma fonksiyonu
 function closeModal(){
     document.getElementById("modal").style.display="none";
+}
+
+
+// Resmi buyuk acma
+function openImage(src){
+
+    document.getElementById("imageModal").style.display="flex";
+
+    document.getElementById("modalImg").src = src;
+}
+
+
+// Resmi kapatma
+function closeImage(){
+
+    document.getElementById("imageModal").style.display="none";
 }
 
 </script>

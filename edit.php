@@ -47,42 +47,59 @@ $row = $result->fetch_assoc();
 
     <style>
 
-        /* Sayfanin genel gorunumu */
-        body {
-            font-family: Arial;
-            background:#f5f5f5;
-            padding:20px;
-        }
+body{
+    margin:0;
+    font-family:'Segoe UI';
+    background:linear-gradient(135deg,#1f1c2c,#928dab);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
 
-        /* Form kutusu */
-        form {
-            background:white;
-            padding:15px;
-            border-radius:10px;
-            width:300px;
-        }
+.box{
+    background:white;
+    padding:35px;
+    border-radius:25px;
+    width:420px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
 
-        /* Input ve select stilleri */
-        input, select {
-            width:100%;
-            margin:5px 0;
-            padding:8px;
-        }
+h2{
+    margin-top:0;
+    margin-bottom:25px;
+}
 
-        /* Buton gorunumu */
-        button {
-            background:green;
-            color:white;
-            padding:8px;
-            border:none;
-            border-radius:5px;
-        }
+input,
+select{
+    width:100%;
+    padding:14px;
+    margin-bottom:15px;
+    border-radius:12px;
+    border:1px solid #ddd;
+    font-size:15px;
+    box-sizing:border-box;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:14px;
+    background:linear-gradient(45deg,#ff6a00,#ee0979);
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
 
     </style>
+
 
 </head>
 
 <body>
+
+<div class="box">
 
 <!-- Sayfa basligi -->
 <h2>Icerigi Guncelle</h2>
@@ -146,21 +163,11 @@ method="POST" -> veriler gizli sekilde gider
 
     </select>
 
-
-
-    <!-- lesson_id alani -->
-    Ders ID:
-
-    <!-- Mevcut lesson_id degeri gosterilir -->
-    <input type="number"
-           name="lesson_id"
-           value="<?php echo $row['lesson_id']; ?>">
-
-
     <!-- Guncelleme butonu -->
     <button type="submit">Guncelle</button>
 
 </form>
+</div>
 
 </body>
 </html>

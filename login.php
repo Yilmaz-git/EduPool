@@ -11,7 +11,9 @@ if(isset($_POST['login'])){ //giris yap butonuna tiklandiysa
     
     if($result->num_rows > 0){ //kullanici mevcutsa
         $user = $result->fetch_assoc();  //bilgileri dizi olarak alir
-        $_SESSION['user_id'] = $user['id']; //id'yi otutuma kaydeder
+        $_SESSION['user_id'] = $user['id']; //id'yi oturuma kaydeder
+        $_SESSION['role'] = $user['role'];
+//kullanicinin rolunu session a kaydet
         header("Location: list.php"); //kullaniciyi list sayfasina gonderir
         exit(); //kodu durdur
     } else { //kullanici mevcut degilse

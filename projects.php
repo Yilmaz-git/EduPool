@@ -206,7 +206,7 @@ body{
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;">
     <h2 style="color:white;margin:0;">📚 Projeler & Ödevler</h2>
     <!-- Tiklaninca JavaScript ile openModal() fonksiyonunu calistirip modal penceresini acar -->
-    <button class="add-btn" onclick="openModal()">➕ Yeni</button>
+    <button class="add-btn" onclick="openModal()">➕ Icerik Ekle</button>
 </div>
 
 <div class="grid">
@@ -244,11 +244,17 @@ body{
 <!-- SIL VE DUZENLE BUTONLARI -->
 <div style="margin-top:10px;">
 
+<!-- Sadece admin kullanicilar silme islemi yapabilir -->
+<?php if($_SESSION['role']=="admin"){ ?>
+
 <a href="delete.php?id=<?php echo $p['id']; ?>&type=project"
 style="background:red;color:white;padding:6px 10px;border-radius:8px;text-decoration:none;">
 Sil
 </a>
 
+<?php } ?>
+
+<!-- Tum kullanicilar duzenleme islemi yapabilir -->
 <a href="edit_project.php?id=<?php echo $p['id']; ?>"
 style="background:orange;color:white;padding:6px 10px;border-radius:8px;text-decoration:none;margin-left:10px;">
 Düzenle
@@ -280,7 +286,7 @@ echo "<p>💬 ".$c['comment']."</p>";
 </div>
 
 <!-- YENI PROJE EKLEME EKRANI (MODAL) -->
- <!-- CSS'de baalangicta gizlenmis (display:none) durumdadir. -->
+ <!-- CSS'de baslangicta gizlenmis (display:none) durumdadir. -->
 <div id="modal">
 <div class="modal-box">
  <!-- Kapatma butonuna basildiginda JS ile closeModal() fonksiyonunu calistirir -->

@@ -1,5 +1,12 @@
 <?php
 
+session_start();
+
+// Sadece admin kullanicilar silme islemi yapabilir
+if($_SESSION['role'] != 'admin'){
+    die("Yetkisiz erisim");
+}
+
 // Veritabanina baglanir
 $conn = new mysqli("localhost","root","","edu_pool");
 
